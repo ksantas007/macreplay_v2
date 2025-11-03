@@ -7,30 +7,33 @@
   <MyIP/>
   <Shell>bash</Shell>
   <Privileged>false</Privileged>
-  <Support>https://github.com/user/macreplay-local</Support>
-  <Project>Local MacReplay Installation</Project>
-  <Overview>MacReplay is an IPTV portal proxy that allows you to manage and stream IPTV channels with advanced features like channel editing, EPG support, and portal management.</Overview>
+  <Support>https://github.com/T4s3rF4c3/macreplay_v2</Support>
+  <Project>https://github.com/T4s3rF4c3/macreplay_v2</Project>
+  <Overview>MacReplay v2 is an improved IPTV portal proxy that allows you to manage and stream IPTV channels with advanced features like enhanced channel editing, EPG support, MAC address rotation, smart fallback systems, and portal management. Perfect for integrating with Plex or M3U-based media software.</Overview>
   <Category>MediaApp:Video</Category>
   <WebUI>http://[IP]:[PORT:8001]</WebUI>
   <TemplateURL/>
-  <Icon>https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/code-server-logo.png</Icon>
+  <Icon>https://raw.githubusercontent.com/T4s3rF4c3/macreplay_v2/main/static/favicon.ico</Icon>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
   <PostArgs/>
   <CPUset/>
   <DateInstalled>1699000000</DateInstalled>
   <DonateText/>
   <DonateLink/>
-  <Description>MacReplay is an IPTV portal proxy that allows you to manage and stream IPTV channels with advanced features like channel editing, EPG support, and portal management.[br][br]
-  [b]Features:[/b][br]
-  • IPTV Portal Management[br]
-  • Channel Editor with DataTables[br]
+  <Description>MacReplay v2 is an improved IPTV portal proxy that allows you to manage and stream IPTV channels with advanced features including enhanced channel editing, EPG support, MAC address rotation, and portal management.[br][br]
+  [b]Key Features:[/b][br]
+  • Advanced Channel Editor with DataTables interface[br]
+  • Multiple IPTV Portal Management with MAC address rotation[br]
+  • Smart Fallback System for stream reliability[br]
+  • Intelligent Duplicate Detection and cleanup[br]
   • EPG (Electronic Program Guide) Support[br]
-  • MAC Address Management[br]
-  • Stream Fallback Support[br]
-  • Dashboard with Statistics[br]
-  • Settings Management[br][br]
+  • Multi-Level Filtering (Portal, Genre, Duplicates)[br]
+  • Dashboard with Statistics and monitoring[br]
+  • Autocomplete Fallback suggestions[br]
+  • Compatible with Plex and M3U-based software[br][br]
   [b]Default Port:[/b] 8001[br]
-  [b]Default User/Group:[/b] 99:100 (nobody:users)
+  [b]Default User/Group:[/b] 99:100 (nobody:users)[br]
+  [b]Web Interface:[/b] Modern Bootstrap-based UI with real-time updates
   </Description>
   <Networking>
     <Mode>bridge</Mode>

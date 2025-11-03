@@ -1,140 +1,229 @@
-# **MacReplay V2 - UNRAID**
+# MacReplay v2 - IPTV Portal Proxy for Unraid
 
-MacReplay V2 is an improved version of [MacReplay](https://github.com/Evilvir-us/MacReplay), designed for seamless connectivity between MAC address portals and media platforms like Plex or M3U-based software.  
+[![Docker](https://img.shields.io/badge/docker-enabled-blue?logo=docker)](https://docker.com)
+[![Unraid](https://img.shields.io/badge/unraid-compatible-orange?logo=unraid)](https://unraid.net)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+MacReplay v2 is an improved IPTV portal proxy designed to run as a Docker container on Unraid. It provides advanced channel management, EPG support, and portal administration features with enhanced playlist editing capabilities.
 
+## 🚀 Features
 
----
+- **Portal Management**: Add and configure multiple IPTV portals with MAC address rotation
+- **Advanced Channel Editor**: Enhanced filtering, duplicate management, and smart autocomplete
+- **Multiple MAC Support**: Rotate between MAC addresses across a single portal for multiple simultaneous connections
+- **Smart Fallback System**: Automatic failover to backup channels when primary streams fail
+- **Intelligent Duplicate Detection**: Only considers enabled channels as duplicates for cleaner management
+- **One-Click Duplicate Cleanup**: Remove duplicate enabled channels while preserving the first occurrence
+- **Multi-Level Filtering**: Portal, Genre, and Duplicate filters work together for precise channel selection
+- **EPG Support**: Electronic Program Guide integration
+- **Dashboard**: Statistics and monitoring interface with real-time status
+- **Cross-Platform**: Works seamlessly with Plex, M3U-based software, and other media platforms
 
-## **Features**
-- 🛠️ **Cross-Platform**: Works on Windows, Linux, and macOS  
-- 🎯 **Enhanced Playlist Editor**: Advanced filtering, duplicate management, and smart autocomplete
-- 🔗 **MAC Portal Integration**: Connect MAC address portals directly with Plex or M3U software  
-- 🐦‍🔥 **Multiple MACs**: Rotate between MAC addresses across a single portal, allowing for multiple connections simultaneously  
-- 🦕 **Multiple Portals**: Add multiple portal URLs to get channels from different providers in the same playlist
-- 🚀 **Smart Fallback System**: Automatic failover to backup channels when primary streams fail
-- 📊 **Intelligent Duplicate Detection**: Only considers enabled channels as duplicates for cleaner management
-- 🎮 **One-Click Duplicate Cleanup**: Remove duplicate enabled channels while preserving the first occurrence
-- 🔍 **Multi-Level Filtering**: Portal, Genre, and Duplicate filters work together for precise channel selection
-- ✨ **Autocomplete Fallbacks**: Smart suggestions for setting up channel failover systems
+## 📦 Unraid Installation
 
----
+### Quick Start
 
-## **Enhanced Playlist Editor**
+1. **Download the repository files:**
+   ```bash
+   cd /mnt/user/appdata/
+   git clone https://github.com/T4s3rF4c3/macreplay_v2.git macreplay
+   cd macreplay
+   ```
 
-The playlist editor features a completely redesigned interface with powerful management tools:
+2. **Start the container:**
+   ```bash
+   docker-compose -f docker-compose-unraid.yml up -d --build
+   ```
 
-### 🎯 **Advanced Filtering System**
-- **Portal Filter**: Isolate channels from specific portals for focused management
-- **Genre Filter**: Filter by Sports, Movies, News, Entertainment, and more
-- **Enabled Duplicates Filter**: Show only channels with multiple enabled instances
-- **Combined Filtering**: All filters work together for laser-focused channel selection
-- **Real-time Search**: Built-in text search across all channel names
+3. **Access the web interface:**
+   ```
+   http://YOUR-UNRAID-IP:8001
+   ```
 
-### 🔄 **Smart Duplicate Management**
-- **Enabled-Only Detection**: Only counts active channels as duplicates (ignores disabled channels)
-- **Visual Highlighting**: Duplicate enabled channels highlighted in yellow for easy identification
-- **Count Badges**: Shows "3x enabled" indicators next to channel names with multiple instances
-- **One-Click Cleanup**: "Deactivate Enabled Duplicates" button keeps first occurrence, removes the rest
-- **Intelligent Logic**: Focuses on channels you're actually using, not all available channels
+### Alternative: Manual Setup
 
-### 🎮 **Fallback Channel System**
-- **Autocomplete Dropdown**: Type or click to see all available channel names for easy selection
-- **Cross-Portal Fallbacks**: Set backup channels from any portal to cover for any other channel
-- **Smart Suggestions**: Dropdown populated with all channel names (including custom names)
-- **Seamless Failover**: When primary channel fails, automatically switches to designated backup
-- **Example Use**: Set "ESPN SD" as fallback for "ESPN HD" - viewers get uninterrupted content
+```bash
+# Create directories
+mkdir -p /mnt/user/appdata/macreplay/{data,logs}
+chown -R 99:100 /mnt/user/appdata/macreplay
 
-### ⚡ **Enhanced User Experience**
-- **Auto-Loading Data**: Channels load automatically when page opens (no manual refresh needed)
-- **DataTables Integration**: Professional table with sorting, pagination, and bulk actions
-- **Real-Time Updates**: All filters and changes apply instantly without page reloads
-- **Bulk Operations**: Select All checkbox for mass enable/disable operations
-- **Persistent Settings**: All configurations saved automatically for future sessions
+# Build and run
+cd /mnt/user/appdata/macreplay
+docker build -t macreplay:unraid -f Dockerfile-unraid .
+docker run -d \
+  --name macreplay \
+  --restart unless-stopped \
+  -p 8001:8001 \
+  -v /mnt/user/appdata/macreplay/data:/app/data \
+  -v /mnt/user/appdata/macreplay/logs:/app/logs \
+  -e PUID=99 \
+  -e PGID=100 \
+  -e TZ=Europe/Berlin \
+  macreplay:unraid
+```
 
----
+## 🛠️ Configuration
 
+### Environment Variables
 
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PUID` | `99` | User ID (nobody on Unraid) |
+| `PGID` | `100` | Group ID (users on Unraid) |
+| `TZ` | `Europe/Berlin` | Timezone for logs and EPG |
+| `PYTHONUNBUFFERED` | `1` | Python output buffering |
 
-## **Getting Started**
+### Volume Mounts
 
+| Host Path | Container Path | Description |
+|-----------|----------------|-------------|
+| `/mnt/user/appdata/macreplay/data` | `/app/data` | Application data and configuration |
+| `/mnt/user/appdata/macreplay/logs` | `/app/logs` | Application logs |
 
+### Ports
 
-### **Configuration Workflow**
-1. **Add Portals**: Go to Portals page and add your portal URLs and MAC addresses
-2. **Configure Channels**: Use the enhanced Playlist Editor to:
-   - Filter channels by portal or genre
-   - Enable/disable channels with checkboxes
-   - Set up custom channel names and numbers
-   - Configure fallback channels for reliability
-   - Remove duplicate channels with one click
-3. **Setup Plex**: 
-   - In Plex settings, go to *Live TV and DVR*
-   - Click *Set Up Plex Tuner*
-   - Select *Have an XMLTV guide*
-   - Enter: `http://YOUR_SERVER_IP:13681/xmltv`
-   - Use playlist: `http://YOUR_SERVER_IP:13681/playlist.m3u`
+| Port | Protocol | Description |
+|------|----------|-------------|
+| `8001` | HTTP | Web interface |
 
----
+## 🌐 Usage
 
-## **Playlist Editor Guide**
+### 1. Add IPTV Portal
+- Navigate to **Portals** section
+- Click **Add Portal**
+- Enter portal URL and MAC addresses (comma-separated)
+- Configure streams per MAC and EPG offset
+- Save and test the portal
 
-### **Managing Large Channel Lists**
-1. **Filter by Portal**: Select specific portal to focus on its channels
-2. **Filter by Genre**: Show only Sports, Movies, News, etc.
-3. **Search**: Type channel names to find specific channels quickly
-4. **Bulk Actions**: Use "Select All" checkbox for mass enable/disable
+### 2. Configure Channels
+- Go to **Channel Editor**
+- Use filters to find specific channels:
+  - **Portal Filter**: Filter by specific portal
+  - **Genre Filter**: Filter by channel genre
+  - **Duplicate Filter**: Show only duplicates or unique channels
+- Enable/disable channels as needed
+- Set custom channel numbers, names, and genres
+- Configure fallback channels for reliability
+- Use **Deactivate Duplicates** to clean up duplicate enabled channels
 
-### **Setting Up Fallbacks**
-1. **Find backup channel**: Use filters to locate a reliable backup (e.g., "ESPN SD")
-2. **Configure fallback**: In the backup channel's "Fallback For" field, type or select the primary channel name (e.g., "ESPN HD")
-3. **Automatic failover**: If "ESPN HD" fails, viewers automatically get "ESPN SD"
+### 3. Advanced Features
+- **Smart Autocomplete**: Type in fallback fields to get channel suggestions
+- **Bulk Operations**: Select all channels or use filters for bulk changes
+- **Real-time Preview**: Play channels directly in the editor
+- **Export/Import**: Save and restore channel configurations
 
-### **Duplicate Channel Cleanup**
-1. **View duplicates**: Select "Enabled Duplicates Only" filter
-2. **Review highlighted channels**: Yellow rows show duplicate enabled channels
-3. **One-click cleanup**: Click "Deactivate Enabled Duplicates" to keep only the first occurrence
-4. **Manual selection**: Or manually uncheck unwanted duplicates
+### 4. Integration
+- **M3U Playlist**: `http://YOUR-IP:8001/playlist.m3u8`
+- **EPG URL**: `http://YOUR-IP:8001/epg.xml`
+- **Plex Integration**: Use the M3U URL in Plex Live TV settings
 
----
+## 📁 Directory Structure
 
-## **Troubleshooting**
-**The TV guide is not being populated:**\
-Check the [XMLTV guide](http://localhost:13681/xmltv).
-If it just shows the list of channels with nothing below them, the provider likely does not supply a guide.
-Try switching to a different provider.
+```
+/mnt/user/appdata/macreplay/
+├── data/
+│   └── MacReplay.json     # Configuration file
+├── logs/
+│   └── macreplay.log      # Application logs
+├── templates/             # Web interface templates
+├── static/               # CSS and static assets
+├── app-docker.py         # Main application
+├── stb.py               # STB proxy functionality
+└── requirements.txt     # Python dependencies
+```
 
-**I've modified the channels, but Plex isn't changing:**\
-You must delete the DVR from Plex and re-add it to see changes.
+## 🔧 Maintenance
 
-**Error getting channel data for [Portal], skipping** or **Error making XMLTV for [Portal], skipping:**\
-Go to the Portals page, select the malfunctioning portal and click "Retest". You likely have an expired MAC address.
+### View Logs
+```bash
+docker logs macreplay -f
+```
 
-**Channels not loading in editor:**\
-Ensure your portals are configured correctly and MAC addresses are valid. Check the Dashboard logs for specific errors.
+### Update Container
+```bash
+cd /mnt/user/appdata/macreplay
+docker-compose -f docker-compose-unraid.yml down
+git pull
+docker-compose -f docker-compose-unraid.yml up -d --build
+```
 
-**Duplicate detection not working:**\
-The system only considers enabled channels as duplicates. Disable a channel to remove it from duplicate detection.
+### Backup Configuration
+```bash
+cp /mnt/user/appdata/macreplay/data/MacReplay.json /mnt/user/backups/
+```
 
----
+### Reset Configuration
+```bash
+docker stop macreplay
+rm /mnt/user/appdata/macreplay/data/MacReplay.json
+docker start macreplay
+```
 
-## **Known Issues**
+## 🐛 Troubleshooting
 
-Channel logos may not display when viewed in a browser. This is likely due to your browser's security settings related to HTTP files being served on an HTTPS domain.\
-![Chrome](https://evilvir.us/application/files/2917/3318/2580/chrome_https_issue.png)
-![Firefox](https://evilvir.us/application/files/9217/3318/2583/firefox_https_issue.png)
+### Container Won't Start
+```bash
+# Check logs
+docker logs macreplay
 
-This issue does not occur with [PLEX HTPC](https://apps.microsoft.com/store/detail/XPFFFF6NN1LZDQ?ocid=pdpshare), the mobile apps, or the TV app. To watch from a PC, use [PLEX HTPC](https://apps.microsoft.com/store/detail/XPFFFF6NN1LZDQ?ocid=pdpshare). If any logos are still missing, it means the provider isn't supplying them.
+# Verify permissions
+ls -la /mnt/user/appdata/macreplay/
+chown -R 99:100 /mnt/user/appdata/macreplay/
+```
 
-For Plex HTPC, you must enable **Force Direct Play** in the settings.
-![HTPC Settings](https://evilvir.us/application/files/5117/3368/8848/htpcsettings.png)
+### Web Interface Not Accessible
+- Ensure port 8001 is not used by other services
+- Check Unraid firewall settings
+- Verify container is running: `docker ps | grep macreplay`
 
----
+### Channel Loading Issues
+- Check portal configuration in the web interface
+- Verify MAC addresses are valid
+- Check EPG offset settings
+- Review application logs for errors
 
-## **Credits**
-MacReplay is based on the incredible work done by [Chris230291](https://github.com/Chris230291) with the original [STB-Proxy](https://github.com/Chris230291/STB-Proxy) and [Evilvir-us](https://github.com/Evilvir-us) with the original [MacReplay](https://github.com/Evilvir-us/MacReplay)
+### Performance Issues
+- Monitor system resources on Unraid dashboard
+- Check log file sizes in `/mnt/user/appdata/macreplay/logs/`
+- Consider reducing the number of active channels
 
----
+## 🔄 API Endpoints
 
-## **Disclaimer**
-This tool is provided as-is and is intended for educational purposes only. Use responsibly and in compliance with applicable laws and terms of service.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Dashboard |
+| `/portals` | GET | Portal management interface |
+| `/editor` | GET | Channel editor interface |
+| `/settings` | GET | Application settings |
+| `/playlist.m3u8` | GET | M3U playlist for media players |
+| `/epg.xml` | GET | EPG data in XMLTV format |
+| `/editor_data` | GET | JSON data for channel editor |
+
+## 📋 Requirements
+
+- **Unraid 6.8+** with Docker support
+- **2GB RAM** minimum (4GB recommended)
+- **1GB disk space** for application and logs
+- **Network access** to IPTV portals
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Issues**: Create an issue on GitHub for bug reports
+- **Documentation**: Check the wiki for detailed guides
+- **Community**: Join discussions in the issues section
+
+## 🙏 Acknowledgments
+
+Based on the original [MacReplay](https://github.com/Evilvir-us/MacReplay) project with significant enhancements for Unraid deployment and improved user experience.

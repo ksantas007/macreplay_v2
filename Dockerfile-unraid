@@ -1,7 +1,7 @@
-# Dockerfile für Unraid
+# Dockerfile for Unraid deployment
 FROM python:3.11-slim
 
-# Build arguments für User/Group IDs
+# Build arguments for User/Group IDs
 ARG PUID=99
 ARG PGID=100
 

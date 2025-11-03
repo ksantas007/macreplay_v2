@@ -21,7 +21,7 @@ services:
     environment:
       - PUID=99          # Unraid nobody user ID
       - PGID=100         # Unraid users group ID
-      - TZ=Europe/Berlin # Adjust timezone as needed
+      - TZ=Europe/Berlin # Timezone (adjust as needed)
       - PYTHONUNBUFFERED=1
     
     # Volume mappings for Unraid
@@ -29,9 +29,6 @@ services:
       # Configuration and data persistence
       - /mnt/user/appdata/macreplay/data:/app/data
       - /mnt/user/appdata/macreplay/logs:/app/logs
-      
-      # Optional: Mount config file directly (if you want to edit externally)
-      # - /mnt/user/appdata/macreplay/config/MacReplay.json:/app/data/MacReplay.json
       
       # Optional: For development - mount templates and static files
       # Uncomment these lines if you want to modify templates/static files without rebuilding
@@ -67,11 +64,11 @@ services:
     security_opt:
       - no-new-privileges:true
     
-    # Additional labels for Unraid management
+    # Labels for Unraid management
     labels:
       - "net.unraid.docker.managed=dockerman"
       - "net.unraid.docker.webui=http://[IP]:[PORT:8001]"
-      - "net.unraid.docker.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/code-server-logo.png"
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/T4s3rF4c3/macreplay_v2/main/static/favicon.ico"
 
 # Optional: Networks (if you want to use custom networks)
 networks:
