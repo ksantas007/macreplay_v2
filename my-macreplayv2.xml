@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>macreplayv2</Name>
-  <Repository>macreplayv2:latest</Repository>
+  <Repository>ghcr.io/t4s3rf4c3/macreplay_v2:latest</Repository>
   <Registry></Registry>
   <Network>bridge</Network>
   <MyIP/>
