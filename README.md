@@ -13,12 +13,7 @@ MacReplayV2 is a lightweight IPTV portal proxy packaged for Docker on Unraid. Th
 
 ## Quick Start on Unraid
 
-```bash
-cd /mnt/user/appdata
-git clone https://github.com/T4s3rF4c3/macreplay_v2.git macreplayv2
-cd macreplayv2
-docker-compose -f docker-compose-unraid.yml up -d --build
-```
+Just copy the "my-macreplayv2.xml" File to your UNRAID Folder "/boot/config/plugins/dockerMan/templates-user/" and open the UNRAID Interface --> "APPS" --> "Previous Apps" and install "MacReplayV2"
 
 Then open `http://YOUR-UNRAID-IP:8001` and add your first portal.
 
