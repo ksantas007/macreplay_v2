@@ -4,6 +4,8 @@ MacReplayV2 is a lightweight IPTV portal proxy packaged for Docker on Unraid. Th
 
 > This codebase is an adaptation/extension of the original [Evilvir-us/MacReplay](https://github.com/Evilvir-us/MacReplay) project. All credit for the foundational work goes to the original author; this fork simply layers on adjustments, updates, and experimental features.
 
+> MacReplay is an improved version of [STB-Proxy](https://github.com/Chris230291/STB-Proxy), designed for seamless connectivity between MAC address portals and media platforms like Plex / JellyFin or M3U-based software.
+
 ## Snapshot
 
 - Multi-portal management with MAC rotation and basic EPG ingestion
