@@ -1,4 +1,4 @@
-# MacReplayV2 (Test Build)
+# MacReplayV2
 
 MacReplayV2 is a lightweight IPTV portal proxy packaged for Docker on Unraid. This repository exists purely as a test sandbox, so expect limited polish and no formal support.
 
