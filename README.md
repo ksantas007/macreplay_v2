@@ -2,6 +2,8 @@
 
 MacReplayV2 is a lightweight IPTV portal proxy packaged for Docker on Unraid. This repository exists purely as a test sandbox, so expect limited polish and no formal support.
 
+> This codebase is an adaptation/extension of the original [Evilvir-us/MacReplay](https://github.com/Evilvir-us/MacReplay) project. All credit for the foundational work goes to the original author; this fork simply layers on adjustments, updates, and experimental features.
+
 ## Snapshot
 
 - Multi-portal management with MAC rotation and basic EPG ingestion
