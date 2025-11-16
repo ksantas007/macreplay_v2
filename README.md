@@ -87,3 +87,13 @@ Showcase your MacReplayV2 setup by adding screenshots here:
 ## Status
 
 Experimental test project. Use at your own risk and do not rely on it for production IPTV workloads.
+
+## License
+
+This project is licensed under the **MIT License** – see the [LICENSE](./LICENSE) file for details.
+
+This codebase builds upon the original work from:
+- [Evilvir-us/MacReplay](https://github.com/Evilvir-us/MacReplay)
+- [Chris230291/STB-Proxy](https://github.com/Chris230291/STB-Proxy)
+
+All credit for foundational contributions goes to the original authors.
