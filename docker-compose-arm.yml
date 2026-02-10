@@ -1,0 +1,37 @@
+services:
+  macreplayv2:
+    build:
+      context: .
+      dockerfile: Dockerfile-compose
+    image: macreplayv2:arm64
+    platform: ${DOCKER_PLATFORM:-linux/arm64}
+    container_name: macreplayv2
+    hostname: macreplayv2
+    restart: unless-stopped
+
+    # Run as your host user/group to avoid permission issues on bind mounts
+    user: "${PUID:-1000}:${PGID:-1000}"
+
+    ports:
+      - "8001:8001"
+
+    environment:
+      TZ: ${TZ:-UTC}
+      PYTHONUNBUFFERED: "1"
+
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
