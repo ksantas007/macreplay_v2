@@ -1,0 +1,32 @@
+# Dockerfile for standard Docker Compose deployments (including ARM devices)
+FROM python:3.11-slim
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install Python dependencies first for better build caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application source
+COPY app-docker.py app.py
+COPY stb.py .
+COPY templates/ templates/
+COPY static/ static/
+
+# Ensure writable paths for bind-mounted data/log directories
+RUN mkdir -p /app/data /app/logs
+
+EXPOSE 8001
+
+ENV PYTHONUNBUFFERED=1
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+CMD ["python", "app.py"]

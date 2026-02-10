@@ -13,6 +13,50 @@ MacReplayV2 is a lightweight IPTV portal proxy packaged for Docker on Unraid. Th
 - Single web UI on port `8001` that exposes dashboard, portals, editor, and settings views
 - Generates M3U and XMLTV outputs for Plex or any M3U-compatible player
 
+## Docker Compose on ARM (Raspberry Pi / ARM SBC / ARM Server)
+
+A dedicated compose setup for ARM is included in this repo:
+
+- `docker-compose-arm.yml`
+- `Dockerfile-compose`
+
+### 1) Create persistent folders
+
+```bash
+mkdir -p data logs
+```
+
+### 2) (Optional) create an env file
+
+```bash
+cat > .env <<EOF
+PUID=1000
+PGID=1000
+TZ=UTC
+DOCKER_PLATFORM=linux/arm64
+EOF
+```
+
+> For 32-bit ARM boards, set `DOCKER_PLATFORM=linux/arm/v7`.
+
+### 3) Build and start
+
+```bash
+docker compose -f docker-compose-arm.yml up -d --build
+```
+
+### 4) Open the UI
+
+- `http://YOUR-DEVICE-IP:8001`
+
+### 5) Update later
+
+```bash
+docker compose -f docker-compose-arm.yml down
+git pull
+docker compose -f docker-compose-arm.yml up -d --build
+```
+
 ## Quick Start on Unraid
 
 ### Manual Template Installation
